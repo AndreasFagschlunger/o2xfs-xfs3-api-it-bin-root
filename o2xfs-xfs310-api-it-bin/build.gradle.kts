@@ -20,7 +20,7 @@ val javah by tasks.registering(Exec::class) {
 val javaApi by configurations.creating
 dependencies {
     api(project(":common"))
-    implementation("eu.cen:cen-xfs:3.00")
+    implementation("eu.cen:cen-xfs:3.10")
     javaApi("at.o2xfs:o2xfs-xfs3-api-it:1.0-SNAPSHOT") {
         exclude(group = "at.o2xfs", module = "o2xfs-memory-impl-bin")
         exclude(group = "at.o2xfs", module = "o2xfs-xfs3-api-it-bin")
