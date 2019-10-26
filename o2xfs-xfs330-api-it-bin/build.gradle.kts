@@ -10,6 +10,11 @@ library {
     targetMachines.add(machines.windows.x86_64)
 }
 
+dependencies {
+    api(project(":common"))
+    implementation("eu.cen:cen-xfs-api:3.30")
+}
+
 val javaHome = System.getenv("JAVA_HOME") ?: System.getProperty("java.home")
 val libIncludePath = files("$javaHome/include", "$javaHome/include/win32")
 
