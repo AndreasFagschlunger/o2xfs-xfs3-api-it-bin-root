@@ -36,7 +36,7 @@ If ($env:TRAVIS_BRANCH -eq 'master') {
 If ($env:TRAVIS_BRANCH -eq 'master') {
     StartProcess -FilePath 'git' -ArgumentList 'config', '--global', 'push.default', 'simple'
     StartProcess -FilePath 'git' -ArgumentList 'config', '--global', 'user.name', 'Travis CI'
-    StartProcess -FilePath 'git' -ArgumentList 'config', '--global', 'user.email', 'travis@travis-ci.org'
+    StartProcess -FilePath 'git' -ArgumentList 'config', '--global', 'user.email', 'travis@travis-ci.com'
     StartProcess -FilePath 'git' -ArgumentList 'remote', 'add', 'origins', "https://$env:GITHUB_TOKEN@github.com/$env:TRAVIS_REPO_SLUG.git"
     StartProcess -FilePath 'git' -ArgumentList 'add', 'build.gradle.kts'
     StartProcess -FilePath 'git' -ArgumentList 'commit', '-m', "Release $newVersion"
