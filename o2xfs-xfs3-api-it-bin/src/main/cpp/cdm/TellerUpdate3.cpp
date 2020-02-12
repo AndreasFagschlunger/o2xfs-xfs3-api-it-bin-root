@@ -25,32 +25,45 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 #include <Windows.h>
 #include <XFSCDM.H>
 #include "common.h"
-#include "cdm/at_o2xfs_xfs_v3_cdm_Capabilities3IT.h"
+#include "cdm/at_o2xfs_xfs_v3_cdm_TellerUpdate3IT.h"
 
-static WFSCDMCAPS caps;
-static LPSTR lpszExtra = "Key1=Value1\0Key2=Value2\0";
+static WFSCDMTELLERUPDATE TellerUpdate;
+static WFSCDMTELLERDETAILS TellerDetails;
+static WFSCDMTELLERTOTALS TellerTotals[2];
+static LPWFSCDMTELLERTOTALS lppTellerTotals[3];
 
-JNIEXPORT jbyteArray JNICALL Java_at_o2xfs_xfs_v3_cdm_Capabilities3IT_createDefault(JNIEnv *env, jobject obj) {
-	caps.wClass = WFS_SERVICE_CLASS_CDM;
-	caps.fwType = WFS_CDM_SELFSERVICEBILL;
-	caps.wMaxDispenseItems = 40;
-	caps.bCompound = false;
-	caps.bShutter = true;
-	caps.bShutterControl = false;
-	caps.fwRetractAreas = WFS_CDM_RA_REJECT | WFS_CDM_RA_RETRACT | WFS_CDM_RA_TRANSPORT;
-	caps.fwRetractTransportActions = WFS_CDM_PRESENT | WFS_CDM_RETRACT | WFS_CDM_REJECT;
-	caps.fwRetractStackerActions = WFS_CDM_PRESENT | WFS_CDM_RETRACT | WFS_CDM_REJECT;
-	caps.bSafeDoor = false;
-	caps.bCashBox = false;
-	caps.bIntermediateStacker = true;
-	caps.bItemsTakenSensor = true;
-	caps.fwPositions = WFS_CDM_POSFRONT;
-	caps.fwMoveItems = WFS_CDM_FROMCU | WFS_CDM_TOTRANSPORT;
-	caps.fwExchangeType = WFS_CDM_EXBYHAND;
-	caps.lpszExtra = lpszExtra;
+JNIEXPORT jbyteArray JNICALL Java_at_o2xfs_xfs_v3_cdm_TellerUpdate3IT_createDefault(JNIEnv *env, jobject obj) {
+	TellerUpdate.usAction = WFS_CDM_CREATE_TELLER;
+	TellerUpdate.lpTellerDetails = &TellerDetails;
 
-	return NewAddress(env, &caps);
+	TellerDetails.usTellerID = 1;
+	TellerDetails.ulInputPosition = WFS_CDM_POSINFRONT;
+	TellerDetails.fwOutputPosition = WFS_CDM_POSBOTTOM;
+	TellerDetails.lppTellerTotals = lppTellerTotals;
+
+	strncpy(TellerTotals[0].cCurrencyID, "EUR", 3);
+	TellerTotals[0].ulItemsReceived = 0;
+	TellerTotals[0].ulItemsDispensed = 0;
+	TellerTotals[0].ulCoinsReceived = 0;
+	TellerTotals[0].ulCoinsDispensed = 123;
+	TellerTotals[0].ulItemsReceived = 0;
+	TellerTotals[0].ulItemsDispensed = 0;
+	lppTellerTotals[0] = &TellerTotals[0];
+
+	strncpy(TellerTotals[1].cCurrencyID, "USD", 3);
+	TellerTotals[1].ulItemsReceived = 0;
+	TellerTotals[1].ulItemsDispensed = 0;
+	TellerTotals[1].ulCoinsReceived = 0;
+	TellerTotals[1].ulCoinsDispensed = 1000;
+	TellerTotals[1].ulItemsReceived = 0;
+	TellerTotals[1].ulItemsDispensed = 0;
+	lppTellerTotals[1] = &TellerTotals[1];
+	
+	lppTellerTotals[2] = NULL;
+
+	return NewAddress(env, &TellerUpdate);
 }

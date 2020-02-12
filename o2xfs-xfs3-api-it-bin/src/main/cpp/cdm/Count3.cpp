@@ -25,32 +25,34 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 #include <Windows.h>
 #include <XFSCDM.H>
 #include "common.h"
-#include "cdm/at_o2xfs_xfs_v3_cdm_Capabilities3IT.h"
+#include "cdm/at_o2xfs_xfs_v3_cdm_Count3IT.h"
 
-static WFSCDMCAPS caps;
-static LPSTR lpszExtra = "Key1=Value1\0Key2=Value2\0";
+static WFSCDMCOUNT count;
+static WFSCDMCOUNTEDPHYSCU countedPhysCUs[2];
+static LPWFSCDMCOUNTEDPHYSCU lppCountedPhysCUs[2];
+static LPSTR physicalPositionNames[2] = {"SLOT1", "SLOT2"};
 
-JNIEXPORT jbyteArray JNICALL Java_at_o2xfs_xfs_v3_cdm_Capabilities3IT_createDefault(JNIEnv *env, jobject obj) {
-	caps.wClass = WFS_SERVICE_CLASS_CDM;
-	caps.fwType = WFS_CDM_SELFSERVICEBILL;
-	caps.wMaxDispenseItems = 40;
-	caps.bCompound = false;
-	caps.bShutter = true;
-	caps.bShutterControl = false;
-	caps.fwRetractAreas = WFS_CDM_RA_REJECT | WFS_CDM_RA_RETRACT | WFS_CDM_RA_TRANSPORT;
-	caps.fwRetractTransportActions = WFS_CDM_PRESENT | WFS_CDM_RETRACT | WFS_CDM_REJECT;
-	caps.fwRetractStackerActions = WFS_CDM_PRESENT | WFS_CDM_RETRACT | WFS_CDM_REJECT;
-	caps.bSafeDoor = false;
-	caps.bCashBox = false;
-	caps.bIntermediateStacker = true;
-	caps.bItemsTakenSensor = true;
-	caps.fwPositions = WFS_CDM_POSFRONT;
-	caps.fwMoveItems = WFS_CDM_FROMCU | WFS_CDM_TOTRANSPORT;
-	caps.fwExchangeType = WFS_CDM_EXBYHAND;
-	caps.lpszExtra = lpszExtra;
+JNIEXPORT jbyteArray JNICALL Java_at_o2xfs_xfs_v3_cdm_Count3IT_createDefault(JNIEnv *env, jobject obj) {
+	count.usNumPhysicalCUs = 2;
+	count.lppCountedPhysCUs = lppCountedPhysCUs;
 
-	return NewAddress(env, &caps);
+	countedPhysCUs[0].lpPhysicalPositionName = physicalPositionNames[0];
+	strncpy(countedPhysCUs[0].cUnitId, "00001", 5);
+	countedPhysCUs[0].ulDispensed = 10;
+	countedPhysCUs[0].ulCounted = 12;
+	countedPhysCUs[0].usPStatus = WFS_CDM_STATCUOK;
+	lppCountedPhysCUs[0] = &countedPhysCUs[0];
+
+	countedPhysCUs[1].lpPhysicalPositionName = physicalPositionNames[1];
+	strncpy(countedPhysCUs[1].cUnitId, "00002", 5);
+	countedPhysCUs[1].ulDispensed = 10;
+	countedPhysCUs[1].ulCounted = 12;
+	countedPhysCUs[1].usPStatus = WFS_CDM_STATCUFULL;
+	lppCountedPhysCUs[1] = &countedPhysCUs[1];
+
+	return NewAddress(env, &count);
 }
