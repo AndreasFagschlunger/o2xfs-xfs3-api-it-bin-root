@@ -25,32 +25,34 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 #include <Windows.h>
 #include <XFSCDM.H>
 #include "common.h"
-#include "cdm/at_o2xfs_xfs_v3_cdm_Capabilities3IT.h"
+#include "cdm/at_o2xfs_xfs_v3_cdm_MixTable3IT.h"
 
-static WFSCDMCAPS caps;
-static LPSTR lpszExtra = "Key1=Value1\0Key2=Value2\0";
+static WFSCDMMIXTABLE mixTable;
+static LPSTR szName = "Test";
+static ULONG ulMixHeader[3] = {10, 20, 50};
+static WFSCDMMIXROW mixRows[2];
+static LPWFSCDMMIXROW lpMixRows[2];
+static USHORT usMixture[2][3] = { {1, 2, 1}, {3, 2, 1} };
 
-JNIEXPORT jbyteArray JNICALL Java_at_o2xfs_xfs_v3_cdm_Capabilities3IT_createDefault(JNIEnv *env, jobject obj) {
-	caps.wClass = WFS_SERVICE_CLASS_CDM;
-	caps.fwType = WFS_CDM_SELFSERVICEBILL;
-	caps.wMaxDispenseItems = 40;
-	caps.bCompound = false;
-	caps.bShutter = true;
-	caps.bShutterControl = false;
-	caps.fwRetractAreas = WFS_CDM_RA_REJECT | WFS_CDM_RA_RETRACT | WFS_CDM_RA_TRANSPORT;
-	caps.fwRetractTransportActions = WFS_CDM_PRESENT | WFS_CDM_RETRACT | WFS_CDM_REJECT;
-	caps.fwRetractStackerActions = WFS_CDM_PRESENT | WFS_CDM_RETRACT | WFS_CDM_REJECT;
-	caps.bSafeDoor = false;
-	caps.bCashBox = false;
-	caps.bIntermediateStacker = true;
-	caps.bItemsTakenSensor = true;
-	caps.fwPositions = WFS_CDM_POSFRONT;
-	caps.fwMoveItems = WFS_CDM_FROMCU | WFS_CDM_TOTRANSPORT;
-	caps.fwExchangeType = WFS_CDM_EXBYHAND;
-	caps.lpszExtra = lpszExtra;
+JNIEXPORT jbyteArray JNICALL Java_at_o2xfs_xfs_v3_cdm_MixTable3IT_createDefault(JNIEnv *env, jobject obj) {
+	mixTable.usMixNumber = 1;
+	mixTable.lpszName = szName;
+	mixTable.usRows = 2;
+	mixTable.usCols = 3;
+	mixTable.lpulMixHeader = ulMixHeader;
+	mixTable.lppMixRows = lpMixRows;
 
-	return NewAddress(env, &caps);
+	mixRows[0].ulAmount = 100;
+	mixRows[0].lpusMixture = usMixture[0];
+	lpMixRows[0] = &mixRows[0];
+
+	mixRows[1].ulAmount = 150;
+	mixRows[1].lpusMixture = usMixture[1];
+	lpMixRows[1] = &mixRows[1];
+
+	return NewAddress(env, &mixTable);
 }

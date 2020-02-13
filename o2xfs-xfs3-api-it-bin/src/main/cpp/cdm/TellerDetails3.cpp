@@ -25,32 +25,31 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 #include <Windows.h>
 #include <XFSCDM.H>
 #include "common.h"
-#include "cdm/at_o2xfs_xfs_v3_cdm_Capabilities3IT.h"
+#include "cdm/at_o2xfs_xfs_v3_cdm_TellerDetails3IT.h"
 
-static WFSCDMCAPS caps;
-static LPSTR lpszExtra = "Key1=Value1\0Key2=Value2\0";
+static WFSCDMTELLERDETAILS tellerDetails;
+static WFSCDMTELLERTOTALS tellerTotals[2];
+static LPWFSCDMTELLERTOTALS lppTellerTotals[2];
 
-JNIEXPORT jbyteArray JNICALL Java_at_o2xfs_xfs_v3_cdm_Capabilities3IT_createDefault(JNIEnv *env, jobject obj) {
-	caps.wClass = WFS_SERVICE_CLASS_CDM;
-	caps.fwType = WFS_CDM_SELFSERVICEBILL;
-	caps.wMaxDispenseItems = 40;
-	caps.bCompound = false;
-	caps.bShutter = true;
-	caps.bShutterControl = false;
-	caps.fwRetractAreas = WFS_CDM_RA_REJECT | WFS_CDM_RA_RETRACT | WFS_CDM_RA_TRANSPORT;
-	caps.fwRetractTransportActions = WFS_CDM_PRESENT | WFS_CDM_RETRACT | WFS_CDM_REJECT;
-	caps.fwRetractStackerActions = WFS_CDM_PRESENT | WFS_CDM_RETRACT | WFS_CDM_REJECT;
-	caps.bSafeDoor = false;
-	caps.bCashBox = false;
-	caps.bIntermediateStacker = true;
-	caps.bItemsTakenSensor = true;
-	caps.fwPositions = WFS_CDM_POSFRONT;
-	caps.fwMoveItems = WFS_CDM_FROMCU | WFS_CDM_TOTRANSPORT;
-	caps.fwExchangeType = WFS_CDM_EXBYHAND;
-	caps.lpszExtra = lpszExtra;
+JNIEXPORT jbyteArray JNICALL Java_at_o2xfs_xfs_v3_cdm_TellerDetails3IT_createDefault(JNIEnv *env, jobject obj) {
+	tellerDetails.usTellerID = 1;
+	tellerDetails.ulInputPosition = WFS_CDM_POSINFRONT;
+	tellerDetails.fwOutputPosition = WFS_CDM_POSTOP;
+	tellerDetails.lppTellerTotals = lppTellerTotals;
 
-	return NewAddress(env, &caps);
+	strncpy(tellerTotals[0].cCurrencyID, "EUR", 3);
+	tellerTotals[0].ulItemsReceived = 0;
+	tellerTotals[0].ulItemsDispensed = 0;
+	tellerTotals[0].ulCoinsReceived = 0;
+	tellerTotals[0].ulCoinsDispensed = 0;
+	tellerTotals[0].ulCashBoxReceived = 0;
+	tellerTotals[0].ulCashBoxDispensed = 0;
+	lppTellerTotals[0] = &tellerTotals[0];
+	lppTellerTotals[1] = NULL;
+
+	return NewAddress(env, &tellerDetails);
 }

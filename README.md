@@ -5,4 +5,4 @@ This project contains native libraries needed for integration testing `o2xfs-xfs
 
 ## Code Status
 
-[![Build Status](https://api.travis-ci.org/AndreasFagschlunger/o2xfs-xfs3-api-it-bin-root.svg?branch=develop)](https://travis-ci.org/AndreasFagschlunger/o2xfs-xfs3-api-it-bin-root)
+[![Build Status](https://api.travis-ci.com/AndreasFagschlunger/o2xfs-xfs3-api-it-bin-root.svg?branch=develop)](https://travis-ci.com/AndreasFagschlunger/o2xfs-xfs3-api-it-bin-root)
