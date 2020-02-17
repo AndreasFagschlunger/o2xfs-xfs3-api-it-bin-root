@@ -43,7 +43,7 @@ tasks.register("javah") {
     for(versionEntry in classNames.entries) {
         for(serviceEntry in versionEntry.value.entries) {
             println(versionEntry.key + "." + serviceEntry.key)
-            val commandLine = mutableListOf(javah, "-d", "o2xfs-xfs" + versionEntry.key.toString().replace(Regex("[\\D]"), "") + "-api-it-bin/src/main/public/" + serviceEntry.key, "-cp", javaApi.asPath)
+            val commandLine = mutableListOf(javah, "-d", "o2xfs-xfs" + versionEntry.key.toString().replace(Regex("[\\D]"), "") + "-api-it-bin/src/main/headers/" + serviceEntry.key, "-cp", javaApi.asPath)
             commandLine.addAll(serviceEntry.value)
             println(commandLine)
             Runtime.getRuntime().exec(commandLine.toTypedArray())

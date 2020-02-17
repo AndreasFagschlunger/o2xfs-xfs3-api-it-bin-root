@@ -32,6 +32,7 @@ If ($env:TRAVIS_BRANCH -eq 'master') {
 }
 
 ./gradlew clean dist
+./gradlew -b test.gradle.kts test
 
 If ($env:TRAVIS_BRANCH -eq 'master') {
     StartProcess -FilePath 'git' -ArgumentList 'config', '--global', 'push.default', 'simple'
@@ -50,3 +51,4 @@ If ($env:TRAVIS_BRANCH -eq 'master') {
 If ($env:TRAVIS_BRANCH -eq 'master' -or $env:TRAVIS_BRANCH -eq 'develop') {
     ./gradlew publish
 }
+
