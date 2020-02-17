@@ -1,7 +1,7 @@
 #include <Windows.h>
 #include <XFSCDM.H>
 #include <common.h>
-#include "../../public/cdm/at_o2xfs_xfs_v3_10_cdm_Capabilities310IT.h"
+ #include "cdm/at_o2xfs_xfs_v3_10_cdm_Capabilities310IT.h"
 
 static WFSCDMCAPS caps;
 static LPSTR lpszExtra = "Key1=Value1\0Key2=Value2\0";
@@ -25,6 +25,7 @@ JNIEXPORT jbyteArray JNICALL Java_at_o2xfs_xfs_v3_110_cdm_Capabilities310IT_crea
 	caps.fwExchangeType = WFS_CDM_EXBYHAND;
 	caps.lpszExtra = lpszExtra;
 	caps.dwGuidLights[WFS_CDM_GUIDANCE_POSOUTNULL] = WFS_CDM_GUIDANCE_SLOW_FLASH | WFS_CDM_GUIDANCE_QUICK_FLASH | WFS_CDM_GUIDANCE_RED | WFS_CDM_GUIDANCE_GREEN;
+	caps.dwGuidLights[WFS_CDM_GUIDLIGHTS_MAX] = WFS_CDM_GUIDANCE_SLOW_FLASH | WFS_CDM_GUIDANCE_MEDIUM_FLASH | WFS_CDM_GUIDANCE_CONTINUOUS;
 	caps.bPowerSaveControl = false;
 	caps.bPrepareDispense = true;
 	
