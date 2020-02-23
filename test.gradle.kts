@@ -68,7 +68,7 @@ tasks.register<Copy>("copyTests") {
 }
 
 tasks.register<Copy>("copyBinaries") {
-    into(System.getenv("USERPROFILE") + "/.o2xfs/test")
+    into(System.getenv("USERPROFILE") + "/.o2xfs/lib")
     from(zipTree("$buildDir/dist/o2xfs-xfs3-api-it-bin.jar")) {
         exclude("META-INF/**")
         includeEmptyDirs = false
