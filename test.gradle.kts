@@ -25,6 +25,8 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+
 plugins {
     `java-library`
     `maven-publish`
@@ -70,6 +72,14 @@ tasks.register<Copy>("copyBinaries") {
     from(zipTree("$buildDir/dist/o2xfs-xfs3-api-it-bin.jar")) {
         exclude("META-INF/**")
         includeEmptyDirs = false
+    }
+}
+
+tasks {
+    test {                                  
+        testLogging {
+            exceptionFormat = TestExceptionFormat.FULL
+        }
     }
 }
 
